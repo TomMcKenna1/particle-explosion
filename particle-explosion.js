@@ -1,16 +1,33 @@
+/**
+ * The complete Triforce, or one or more components of the Triforce.
+ * @typedef {Object} ParticleExplosionConfig
+ * @property {number} [margin = 0] - The margin of the particle sheet.
+ * @property {number} [marginTop = null] - The top margin of the particle sheet.
+ * @property {number} [marginBottom = null] - The bottom margin of the particle sheet.
+ * @property {number} [marginLeft = null] - The left margin of the particle sheet.
+ * @property {number} [marginRight = null] - The right margin of the particle sheet.
+ * @property {number} [particleSpacing = 3] - The spacing between particles.
+ * @property {any} [particleColour = [255,255,255,255]] - The colour of the particles.
+ */
+
 /** Class representing a particle explosion */
 class ParticleExplosion {
     /**
      * Create a particle explosion.
      * @param {string} canvasID - The ID of the canvas.
-     * @param {number} [particleSpacing=3] - The spacing between particles.
-     * @param {any} [particleColour=[255,255,255,255]] - The colour of the particles.
+     * @param {ParticleExplosionConfig} [config = {}] - The configuration of the particle explosion.
      */
     constructor (
-      canvasID,
-      particleColour = [255,255,255,255],
-      particleSpacing = 5
+        canvasID,
+        config = {},
     ) {
+        this.particleSpacing = config.particleSpacing || 5;
+        this.particleColour = config.particleColour || [255,255,255,255];
+        this.marginTop = config.marginTop || config.margin;
+        this.marginBottom = config.marginBottom || config.margin;
+        this.marginLeft = config.marginLeft || config.margin;
+        this.marginRight = config.marginRight || config.margin;
+        this.mouseFactor = config.mouseFactor || 0.1;
         /** @type {HTMLCanvasElement} */
         this.canvas = document.getElementById(canvasID);
         this.particlePrototype = {
@@ -24,9 +41,6 @@ class ParticleExplosion {
         };
         this.ctx = this.canvas.getContext('2d');
         this.particles = [];
-        this.particleSpacing = particleSpacing;
-        this.particleColour = particleColour;
-        this.mouseFactor = 0.1;
         this.explosionFactor = 1;
         this.drag = 0.95;
         this.ease = 0.25;
@@ -34,10 +48,6 @@ class ParticleExplosion {
         this.width;
         this.height;
         this.explosionDiameter;
-        this.marginTop;
-        this.marginBottom;
-        this.marginLeft;
-        this.marginRight;
         this.groundZeroX;
         this.groundZeroY;
         this.machinePerformance = 0;
@@ -89,12 +99,6 @@ class ParticleExplosion {
       // Bitwise shift (~~) can be used as fast alternative to Math.floor() for positive numbers
       this.width = this.canvas.width = ~~width;
       this.height = this.canvas.height = ~~height;
-  
-      // TODO: Improve this
-      this.marginLeft = this.height / 16;
-      this.marginRight = this.height / 16;
-      this.marginTop = this.height / 16;
-      this.marginBottom = this.height / 2 + this.marginTop
   
       this.explosionDiameter = (this.width * this.width * this.explosionFactor);
       const minExplosionFactor = Math.ceil(this.explosionFactor)
@@ -180,4 +184,4 @@ class ParticleExplosion {
         }
         return newParticleImage;
     }
-  }
+}
