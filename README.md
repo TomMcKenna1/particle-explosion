@@ -105,7 +105,7 @@ See the [open issues](https://github.com/TomMcKenna1/particle-explosion/issues) 
 
 Any contributions you make are **greatly appreciated**; I try to promptly check all of them!
 
-If you have a suggestion that would improve this project, please fork the repo and create a pull request. You can also simply open an issue with the tag "feature-request".
+If you have a suggestion that would improve this project, please fork the repo and create a pull request. You can also simply open an issue with the label "enhancement".
 Don't forget to give the project a star! Thanks again.
 
 1. Fork the project
