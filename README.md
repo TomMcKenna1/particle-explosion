@@ -6,6 +6,8 @@
     <a href="https://tommckenna.dev">View Demo</a>
     ·
     <a href="https://github.com/TomMcKenna1/particle-explosion/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/TomMcKenna1/particle-explosion/issues">Request Feature</a>
   </p>
 </div>
 
