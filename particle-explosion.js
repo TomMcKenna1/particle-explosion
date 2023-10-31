@@ -1,16 +1,37 @@
-/** Class representing a particle explosion */
+/**
+ * The configuration object for a particle explosion
+ * @typedef {Object} ParticleExplosionConfig
+ * @property {number} [margin = 0] - The margin of the particle sheet.
+ * @property {number} [marginTop = null] - The top margin of the particle sheet.
+ * @property {number} [marginBottom = null] - The bottom margin of the particle sheet.
+ * @property {number} [marginLeft = null] - The left margin of the particle sheet.
+ * @property {number} [marginRight = null] - The right margin of the particle sheet.
+ * @property {number} [particleSpacing = 3] - The spacing between particles.
+ * @property {[number, number, number, number]} [particleColour = [255,255,255,30]] - The colour of the particles.
+ * @property {number} [particleDrag = 0.95] - The drag of the particles.
+ * @property {number} [particleEase = 0.25] - The easing of the particles.
+ */
+
 class ParticleExplosion {
     /**
-     * Create a particle explosion.
+     * Create a particle explosion in a specified canvas element.
      * @param {string} canvasID - The ID of the canvas.
-     * @param {number} [particleSpacing=3] - The spacing between particles.
-     * @param {any} [particleColour=[255,255,255,255]] - The colour of the particles.
+     * @param {ParticleExplosionConfig} [config = {}] - The configuration of the particle explosion.
      */
     constructor (
-      canvasID,
-      particleColour = [255,255,255,255],
-      particleSpacing = 5
+        canvasID,
+        config = {},
     ) {
+        this.particleSpacing = config.particleSpacing || 5;
+        this.particleColour = config.particleColour || [255,255,255,255];
+        this.particleDrag = config.particleDrag || 0.95;
+        this.particleEase = config.particleEase || 0.25;
+        this.marginTop = config.marginTop || config.margin;
+        this.marginBottom = config.marginBottom || config.margin;
+        this.marginLeft = config.marginLeft || config.margin;
+        this.marginRight = config.marginRight || config.margin;
+        this.mouseFactor = config.mouseFactor || 0.1;
+        this.explosionFactor = config.mouseFactor || 1;
         /** @type {HTMLCanvasElement} */
         this.canvas = document.getElementById(canvasID);
         this.particlePrototype = {
@@ -24,22 +45,13 @@ class ParticleExplosion {
         };
         this.ctx = this.canvas.getContext('2d');
         this.particles = [];
-        this.particleSpacing = particleSpacing;
-        this.particleColour = particleColour;
-        this.mouseFactor = 0.1;
-        this.explosionFactor = 1;
-        this.drag = 0.95;
-        this.ease = 0.25;
         this.tic = true;
         this.width;
         this.height;
         this.explosionDiameter;
-        this.marginTop;
-        this.marginBottom;
-        this.marginLeft;
-        this.marginRight;
         this.groundZeroX;
         this.groundZeroY;
+        // WIP: Adjust the particle spacing to the hosts specifications.
         this.machinePerformance = 0;
     
         this.animateReqID;
@@ -47,22 +59,22 @@ class ParticleExplosion {
         this.canvas.addEventListener('mousemove', (event) => {
             const { left, top } = this.canvas.getBoundingClientRect()
             if (
-            event.clientX - left > this.marginLeft && 
-            event.clientX - left < this.width - this.marginLeft &&
-            event.clientY - top > this.marginTop &&
-            event.clientY - top < this.height - this.marginBottom
+                event.clientX - left > this.marginLeft && 
+                event.clientX - left < this.width - this.marginLeft &&
+                event.clientY - top > this.marginTop &&
+                event.clientY - top < this.height - this.marginBottom
             ) {
-            // Set explosion to centre and move with mouse.
-            this.groundZeroX = (
-                this.width - this.marginRight + this.marginLeft) / 2 
-                + this.mouseFactor * (event.clientX - left - (this.width - this.marginRight + this.marginLeft) / 2);
-            this.groundZeroY = (
-                this.height - this.marginBottom + this.marginTop) / 2 
-                + this.mouseFactor * (event.clientY - top - (this.height - this.marginBottom + this.marginTop) / 2);
+                // Set explosion to centre and move with mouse.
+                this.groundZeroX = (
+                    this.width - this.marginRight + this.marginLeft) / 2 
+                    + this.mouseFactor * (event.clientX - left - (this.width - this.marginRight + this.marginLeft) / 2);
+                this.groundZeroY = (
+                    this.height - this.marginBottom + this.marginTop) / 2 
+                    + this.mouseFactor * (event.clientY - top - (this.height - this.marginBottom + this.marginTop) / 2);
             }
             else {
-            this.groundZeroX = -this.width * 2;
-            this.groundZeroY = -this.height * 2;
+                this.groundZeroX = -this.width * 2;
+                this.groundZeroY = -this.height * 2;
             }
         });
     
@@ -72,34 +84,24 @@ class ParticleExplosion {
         });
     
         window.addEventListener('resize', () => {
-            this.stop();
+            this.stopAnimation();
             this.init();
-            this.start();
+            this.startAnimation();
         })
     
         this.init();
-        this.start();
+        this.startAnimation();
     }
   
-    /**
-     * Initialise the particle canvas.
-     */
     init = () => {
       const { width, height } = this.canvas.getBoundingClientRect()
       // Bitwise shift (~~) can be used as fast alternative to Math.floor() for positive numbers
       this.width = this.canvas.width = ~~width;
       this.height = this.canvas.height = ~~height;
-  
-      // TODO: Improve this
-      this.marginLeft = this.height / 16;
-      this.marginRight = this.height / 16;
-      this.marginTop = this.height / 16;
-      this.marginBottom = this.height / 2 + this.marginTop
-  
-      this.explosionDiameter = (this.width * this.width * this.explosionFactor);
-      const minExplosionFactor = Math.ceil(this.explosionFactor)
-      this.groundZeroX = -this.width * minExplosionFactor;
-      this.groundZeroY = -this.height * minExplosionFactor;
+ 
+      this.explosionDiameter = this.width * this.width * this.explosionFactor;
+      this.groundZeroX = -this.explosionDiameter;
+      this.groundZeroY = -this.explosionDiameter;
   
       this.particles = [];
       for (let i = this.marginLeft; i < this.width - this.marginRight; i += this.particleSpacing) {
@@ -111,17 +113,13 @@ class ParticleExplosion {
             this.particles.push(particle);
         }
       }
-      console.log(`${this.particles.length} particles rendered`)
     }
   
-    /**
-     * Start the particle animation.
-     */
-    start = () => {
+    startAnimation = () => {
         const start = Date.now();
         // Only calculate particle positions every other animation frame.
         if (this.tic = !this.tic) {
-            this.updateParticles();
+            this.updateParticlePositions();
         } 
         else {
             this.ctx.putImageData(this.getParticleImage(), 0, 0);
@@ -132,20 +130,14 @@ class ParticleExplosion {
             this.machinePerformance = timeTaken;
         }
         console.log(this.machinePerformance)
-        this.animateReqID = requestAnimationFrame(this.start);
+        this.animateReqID = requestAnimationFrame(this.startAnimation);
     }
     
-    /**
-     * Stop the particle animation.
-     */
-    stop = () => {
+    stopAnimation = () => {
       cancelAnimationFrame(this.animateReqID);
     }
   
-    /**
-     * Update the position of particles.
-     */
-    updateParticles = () => {
+    updateParticlePositions = () => {
         for (let i = 0; i < this.particles.length; i++) {
             let particle = this.particles[i];
             const dx = this.groundZeroX - particle.x;
@@ -159,14 +151,11 @@ class ParticleExplosion {
                 particle.vy += f * Math.sin(t);
             }
     
-            particle.x += (particle.vx *= this.drag) + (particle.ox - particle.x) * this.ease * particle.density;
-            particle.y += (particle.vy *= this.drag) + (particle.oy - particle.y) * this.ease * particle.density; 
+            particle.x += (particle.vx *= this.particleDrag) + (particle.ox - particle.x) * this.particleEase * particle.density;
+            particle.y += (particle.vy *= this.particleDrag) + (particle.oy - particle.y) * this.particleEase * particle.density; 
         }
     }
   
-    /**
-     * Update the canvas image.
-     */
     getParticleImage = () => {
         let newParticleImage = this.ctx.createImageData(this.width, this.height)
         let b = newParticleImage.data;
@@ -180,4 +169,4 @@ class ParticleExplosion {
         }
         return newParticleImage;
     }
-  }
+}

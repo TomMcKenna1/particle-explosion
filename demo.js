@@ -1,0 +1,1 @@
+const welcomeExplosion = new ParticleExplosion('demoCanvas', {margin: 100});

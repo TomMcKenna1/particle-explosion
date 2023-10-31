@@ -1,0 +1,25 @@
+:root {
+    --mainColour: rgb(17,17,17);
+    --contrastColour: rgb(204,204,204);
+    --contrastColour--darker: rgb(90, 90, 90);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+body {
+    background-color: rgb(17,17,17);
+}
+
+.container {
+    display: flex;
+    height: 100%;
+}
+.demo-canvas {
+    width: 100%;
+    height: 100%;
+}
