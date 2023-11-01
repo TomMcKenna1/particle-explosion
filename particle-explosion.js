@@ -6,10 +6,12 @@
  * @property {number} [marginBottom = null] - The bottom margin of the particle sheet.
  * @property {number} [marginLeft = null] - The left margin of the particle sheet.
  * @property {number} [marginRight = null] - The right margin of the particle sheet.
- * @property {number} [particleSpacing = 3] - The spacing between particles.
+ * @property {number} [particleSpacing = 5] - The number of pixels between adjacent particles.
  * @property {[number, number, number, number]} [particleColour = [255,255,255,30]] - The colour of the particles.
  * @property {number} [particleDrag = 0.95] - The drag of the particles.
  * @property {number} [particleEase = 0.25] - The easing of the particles.
+ * @property {number} [mouseFactor = 0.1] - The amount the mouse moves the explosion centre.
+ * @property {number} [explosionFactor = 1] - The size of the explosion.
  */
 
 class ParticleExplosion {
@@ -22,18 +24,18 @@ class ParticleExplosion {
         canvasID,
         config = {},
     ) {
+        /** @type {HTMLCanvasElement} */
+        this.canvas = document.getElementById(canvasID);
+        this.marginTop = config.marginTop || config.margin || 0;
+        this.marginBottom = config.marginBottom || config.margin || 0;
+        this.marginLeft = config.marginLeft || config.margin || 0;
+        this.marginRight = config.marginRight || config.margin || 0;
         this.particleSpacing = config.particleSpacing || 5;
         this.particleColour = config.particleColour || [255,255,255,255];
         this.particleDrag = config.particleDrag || 0.95;
         this.particleEase = config.particleEase || 0.25;
-        this.marginTop = config.marginTop || config.margin;
-        this.marginBottom = config.marginBottom || config.margin;
-        this.marginLeft = config.marginLeft || config.margin;
-        this.marginRight = config.marginRight || config.margin;
         this.mouseFactor = config.mouseFactor || 0.1;
-        this.explosionFactor = config.mouseFactor || 1;
-        /** @type {HTMLCanvasElement} */
-        this.canvas = document.getElementById(canvasID);
+        this.explosionFactor = config.explosionFactor || 1;
         this.particlePrototype = {
             ox: 0,
             oy: 0,
@@ -56,6 +58,12 @@ class ParticleExplosion {
     
         this.animateReqID;
     
+        this.initEventListeners();
+        this.initParticleCanvas();
+        this.startAnimation();
+    }
+
+    initEventListeners = () => {
         this.canvas.addEventListener('mousemove', (event) => {
             const { left, top } = this.canvas.getBoundingClientRect()
             if (
@@ -88,21 +96,16 @@ class ParticleExplosion {
             this.init();
             this.startAnimation();
         })
-    
-        this.init();
-        this.startAnimation();
     }
-  
-    init = () => {
+
+    initParticleCanvas = () => {
       const { width, height } = this.canvas.getBoundingClientRect()
       // Bitwise shift (~~) can be used as fast alternative to Math.floor() for positive numbers
       this.width = this.canvas.width = ~~width;
       this.height = this.canvas.height = ~~height;
- 
       this.explosionDiameter = this.width * this.width * this.explosionFactor;
       this.groundZeroX = -this.explosionDiameter;
       this.groundZeroY = -this.explosionDiameter;
-  
       this.particles = [];
       for (let i = this.marginLeft; i < this.width - this.marginRight; i += this.particleSpacing) {
         for (let j = this.marginTop; j < this.height - this.marginBottom; j += this.particleSpacing) {
@@ -144,13 +147,11 @@ class ParticleExplosion {
             const dy = this.groundZeroY - particle.y
             const distanceFromGZ = dx * dx + dy * dy;
             const f = -this.explosionDiameter / distanceFromGZ;
-    
             if (distanceFromGZ < this.explosionDiameter) {
                 let t = Math.atan2( dy, dx );
                 particle.vx += f * Math.cos(t);
                 particle.vy += f * Math.sin(t);
             }
-    
             particle.x += (particle.vx *= this.particleDrag) + (particle.ox - particle.x) * this.particleEase * particle.density;
             particle.y += (particle.vy *= this.particleDrag) + (particle.oy - particle.y) * this.particleEase * particle.density; 
         }

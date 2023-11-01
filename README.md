@@ -84,15 +84,17 @@ const welcomeExplosion = new ParticleExplosion('demoCanvas', {particleSpacing: 1
 ```
 The following parameters are currently supported:
 
- * margin - The margin of the particle sheet.
- * marginTop - The top margin of the particle sheet.
- * marginBottom - The bottom margin of the particle sheet.
- * marginLeft - The left margin of the particle sheet.
- * marginRight - The right margin of the particle sheet.
- * particleSpacing - The spacing between particles.
- * particleColour - The colour of the particles as an array of red, green, blue and alpha values ([r, g, b, a]).
- * particleDrag - The drag of the particles.
- * particleEase - The easing of the particles.
+ * margin (default: `0`) - The margin of the particle sheet.
+ * marginTop (default: `0`) - The top margin of the particle sheet.
+ * marginBottom (default: `0`) - The bottom margin of the particle sheet.
+ * marginLeft (default: `0`) - The left margin of the particle sheet.
+ * marginRight (default: `0`) - The right margin of the particle sheet.
+ * particleSpacing (default: `5`) - The number of pixels between adjacent particles.
+ * particleColour (default: `[255,255,255,255]`) - The colour of the particles as an array of red, green, blue and alpha values ([r, g, b, a]).
+ * particleDrag (default: `0.95`) - The drag of the particles.
+ * particleEase (default: `0.25`) - The easing of the particles.
+ * mouseFactor (default: `0.1`) - The amount the mouse moves the explosion centre.
+ * explosionFactor (default: `1`) - The size of the explosion.
 
 
 <!-- ROADMAP -->
