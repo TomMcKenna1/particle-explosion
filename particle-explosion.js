@@ -86,7 +86,7 @@ class ParticleExplosion {
             }
         });
     
-        this.canvas.addEventListener('mouseleave', (_event) => {
+        this.canvas.addEventListener('mouseleave', () => {
             this.groundZeroX = -this.width*2;
             this.groundZeroY = -this.height*2;
         });
