@@ -159,14 +159,14 @@ class ParticleExplosion {
   
     getParticleImage = () => {
         let newParticleImage = this.ctx.createImageData(this.width, this.height)
-        let b = newParticleImage.data;
+        let rgbaArray = newParticleImage.data;
         for (let i = 0; i < this.particles.length; i++) {
-            let p = this.particles[i];
-            let n = ((~~p.x) + (~~p.y) * this.width) * 4;
-            b[n] = this.particleColour[0];
-            b[n+1] = this.particleColour[1];
-            b[n+2] = this.particleColour[2];
-            b[n+3] = this.particleColour[3];
+            let particle = this.particles[i];
+            let pixel = ((~~particle.x) + (~~particle.y) * this.width) * 4;
+            rgbaArray[pixel] = this.particleColour[0]; // Red
+            rgbaArray[pixel+1] = this.particleColour[1]; // Green
+            rgbaArray[pixel+2] = this.particleColour[2]; // Blue
+            rgbaArray[pixel+3] = this.particleColour[3]; // Alpha
         }
         return newParticleImage;
     }
