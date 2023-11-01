@@ -71,7 +71,7 @@ To initialise a particle explosion in your own project, follow the steps below.
    ```
 3. Create a new ParticleExplosion object in your javascript, and link it to the canvas element by passing the element ID
    ```js
-   const welcomeExplosion = new ParticleExplosion('demoCanvas');
+   const demoExplosion = new ParticleExplosion('demoCanvas');
    ```
 
 If you are stuck, please have a look at the demo files: demo.html, demo.css, demo.js
@@ -80,7 +80,7 @@ If you are stuck, please have a look at the demo files: demo.html, demo.css, dem
 
 You can pass an additional argument containing parameters to adjust the particle explosion:
 ```js
-const welcomeExplosion = new ParticleExplosion('demoCanvas', {particleSpacing: 10, margin: 100});
+const demoExplosion = new ParticleExplosion('demoCanvas', {particleSpacing: 10, margin: 100});
 ```
 The following parameters are currently supported:
 
