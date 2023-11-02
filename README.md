@@ -5,9 +5,9 @@
     <br />
     <a href="https://tommckenna.dev">View Demo</a>
     ·
-    <a href="https://github.com/TomMcKenna1/particle-explosion/issues">Report Bug</a>
+    <a href="https://github.com/TomMcKenna1/particle-explosions/issues">Report Bug</a>
     ·
-    <a href="https://github.com/TomMcKenna1/particle-explosion/issues">Request Feature</a>
+    <a href="https://github.com/TomMcKenna1/particle-explosions/issues">Request Feature</a>
   </p>
 </div>
 
@@ -49,7 +49,7 @@ To view a demo of this effect on your own machine, follow the steps below.
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/TomMcKenna1/particle-explosion.git
+   git clone https://github.com/TomMcKenna1/particle-explosions.git
    ```
 2. Open demo.html using a browser of your choice
 
@@ -61,9 +61,9 @@ To view a demo of this effect on your own machine, follow the steps below.
 
 To initialise a particle explosion in your own project, follow the steps below.
 
-1. Include the script in the head of your html, ensuring particle-explosion.js and your html file share the same directory
+1. Include the script in the head of your html, ensuring particle-explosions.js and your html file share the same directory
    ```html
-   <script src="particle-explosion.js"></script>
+   <script src="particle-explosions.js"></script>
    ```
 2. Create a canvas anywhere in the body of your html
    ```html
@@ -102,7 +102,7 @@ The following parameters are currently supported:
 
 - [ ] Automatic particle scaling to match machine performance
 
-See the [open issues](https://github.com/TomMcKenna1/particle-explosion/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/TomMcKenna1/particle-explosions/issues) for a full list of proposed features (and known issues).
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -128,4 +128,4 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Tom McKenna - [Follow me on LinkedIn!](https://www.linkedin.com/in/tom-m-8a70891a8/) - tom2mckenna@gmail.com
 
-Project Link: [https://github.com/TomMcKenna1/particle-explosion](https://github.com/TomMcKenna1/particle-explosion)
+Project Link: [https://github.com/TomMcKenna1/particle-explosions](https://github.com/TomMcKenna1/particle-explosions)

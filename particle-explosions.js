@@ -36,6 +36,8 @@ class ParticleExplosion {
         this.particleEase = config.particleEase || 0.25;
         this.mouseFactor = config.mouseFactor || 0.1;
         this.explosionFactor = config.explosionFactor || 1;
+        this.groundZeroX = -1;
+        this.groundZeroY = -1;
         this.particlePrototype = {
             ox: 0,
             oy: 0,
@@ -51,8 +53,6 @@ class ParticleExplosion {
         this.width;
         this.height;
         this.explosionDiameter;
-        this.groundZeroX;
-        this.groundZeroY;
         // WIP: Adjust the particle spacing to the hosts specifications.
         this.machinePerformance = 0;
     
@@ -81,14 +81,14 @@ class ParticleExplosion {
                     + this.mouseFactor * (event.clientY - top - (this.height - this.marginBottom + this.marginTop) / 2);
             }
             else {
-                this.groundZeroX = -this.width * 2;
-                this.groundZeroY = -this.height * 2;
+                this.groundZeroX = -1;
+                this.groundZeroY = -1;
             }
         });
     
         this.canvas.addEventListener('mouseleave', () => {
-            this.groundZeroX = -this.width*2;
-            this.groundZeroY = -this.height*2;
+            this.groundZeroX = -1;
+            this.groundZeroY = -1;
         });
     
         window.addEventListener('resize', () => {
@@ -104,8 +104,6 @@ class ParticleExplosion {
       this.width = this.canvas.width = ~~width;
       this.height = this.canvas.height = ~~height;
       this.explosionDiameter = this.width * this.width * this.explosionFactor;
-      this.groundZeroX = -this.explosionDiameter;
-      this.groundZeroY = -this.explosionDiameter;
       this.particles = [];
       for (let i = this.marginLeft; i < this.width - this.marginRight; i += this.particleSpacing) {
         for (let j = this.marginTop; j < this.height - this.marginBottom; j += this.particleSpacing) {
@@ -143,11 +141,11 @@ class ParticleExplosion {
     updateParticlePositions = () => {
         for (let i = 0; i < this.particles.length; i++) {
             let particle = this.particles[i];
-            const dx = this.groundZeroX - particle.x;
-            const dy = this.groundZeroY - particle.y
-            const distanceFromGZ = dx * dx + dy * dy;
-            const f = -this.explosionDiameter / distanceFromGZ;
-            if (distanceFromGZ < this.explosionDiameter) {
+            if (this.groundZeroX > -1) {
+                const dx = this.groundZeroX - particle.x;
+                const dy = this.groundZeroY - particle.y
+                const distanceFromGZ = dx * dx + dy * dy;
+                const f = -this.explosionDiameter / distanceFromGZ;
                 let t = Math.atan2( dy, dx );
                 particle.vx += f * Math.cos(t);
                 particle.vy += f * Math.sin(t);
