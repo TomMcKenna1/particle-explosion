@@ -96,6 +96,10 @@ The following parameters are currently supported:
  * mouseFactor (default: `0.1`) - The amount the mouse moves the explosion centre.
  * explosionFactor (default: `1`) - The size of the explosion.
 
+You can really customise the effect so get creative. Heres a configuration I made earlier, try it out!
+```js
+const followTheMouseConfig = {margin: 100, mouseFactor: 1, explosionFactor: 0.01}
+```
 
 <!-- ROADMAP -->
 ## Roadmap

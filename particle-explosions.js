@@ -93,7 +93,7 @@ class ParticleExplosion {
     
         window.addEventListener('resize', () => {
             this.stopAnimation();
-            this.init();
+            this.initParticleCanvas();
             this.startAnimation();
         })
     }
