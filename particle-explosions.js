@@ -38,6 +38,7 @@ class ParticleExplosion {
     this.explosionFactor = config.explosionFactor || 1;
     this.groundZeroX = -1;
     this.groundZeroY = -1;
+    this.machinePerformance = 0
     this.particlePrototype = {
       ox: 0,
       oy: 0,
@@ -62,6 +63,7 @@ class ParticleExplosion {
   }
 
   startAnimation = () => {
+    const start = Date.now();
     // Only calculate particle positions every other animation frame.
     if (this.tic = !this.tic) {
       this.#updateParticlePositions();
@@ -69,6 +71,12 @@ class ParticleExplosion {
     else {
       this.ctx.putImageData(this.getParticleImage(), 0, 0);
     }
+    const end = Date.now();
+    const timeTaken = end - start;
+    if (timeTaken > this.machinePerformance) {
+      this.machinePerformance = timeTaken;
+    }
+    console.log(this.machinePerformance)
     this.animateReqID = requestAnimationFrame(this.startAnimation);
   }
 
