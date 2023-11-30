@@ -3,7 +3,7 @@
   <p align="center">
     Easily create amazing particle explosions in an HTML5 canvas.
     <br />
-    <a href="https://tommckenna.dev">View Demo</a>
+    <a target="_blank" href="https://tommckenna.dev">View Demo</a>
     ·
     <a href="https://github.com/TomMcKenna1/particle-explosions/issues">Report Bug</a>
     ·
