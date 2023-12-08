@@ -40,7 +40,7 @@
 
 ![](https://github.com/TomMcKenna1/particle-explosions/blob/main/resources/particle_explosion_demo.gif)
 
-Easily create awesome looking particle explosion effects in your html files with this lightweight, performant and customisable script.
+Easily create particle explosion effects in your website or webapp with this lightweight, performant and customisable script. Check out the demo here: [tommckenna.dev](https://tommckenna.dev/)
 
 <!-- GETTING STARTED -->
 ## Getting Started
